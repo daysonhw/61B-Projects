@@ -11,7 +11,7 @@ public class ArrayDeque<T> implements LLDInterface {
 
     private void resize(int capacity) {
         T[] a = (T[]) new Object[capacity];
-        System.arraycopy(items,0,a,0,size);
+        System.arraycopy(items,0,a,0, size);
         items = a;
     }
 
@@ -20,7 +20,7 @@ public class ArrayDeque<T> implements LLDInterface {
         if (size == items.length) {
             resize(2 * size);
         }
-        T[] a =(T[]) new Object[size];
+        T[] a = (T[]) new Object[size];
         a[0] = (T) item;
         System.arraycopy(items, 0, a, 1, size);
         items = a;
@@ -38,7 +38,7 @@ public class ArrayDeque<T> implements LLDInterface {
 
     @Override
     public boolean isEmpty() {
-        if(size>0) {
+        if (size > 0) {
             return false;
         }
         return true;
@@ -59,7 +59,7 @@ public class ArrayDeque<T> implements LLDInterface {
         if (size < items.length / 3) {
             resize(items.length / 2);
         }
-        T[] a =(T[]) new Object[size];
+        T[] a = (T[]) new Object[size];
         System.arraycopy(items, 1, a, 0, size);
         T temp = items[0];
         items = a;
