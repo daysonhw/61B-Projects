@@ -27,6 +27,10 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
      * Array for storing the buffer data.
      */
     private T[] rb;
+    /**
+     * Iterator position
+     */
+    private int position;
 
     /**
      * Create a new ArrayRingBuffer with the given capacity.
@@ -109,6 +113,7 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
         return rb[first];
     }
 
+
     /**
      * Initiate Array with item
      */
@@ -119,8 +124,46 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
         }
     }
 
-    // TODO: When you get to part 4, implement the needed code to support
-    //       iteration and equals.
+     private class ArrayRingBufferIterator implements Iterator<T> {
+        private int wizPos;
+        private int hasNext;
+
+         public ArrayRingBufferIterator() {
+             wizPos = first;
+             hasNext = fillCount;
+         }
+        /**
+         * Returns {@code true} if the iteration has more elements.
+         * (In other words, returns {@code true} if {@link #next} would
+         * return an element rather than throwing an exception.)
+         *
+         * @return {@code true} if the iteration has more elements
+         */
+
+        @Override
+        public boolean hasNext() {
+            return hasNext != 0;
+        }
+
+        /**
+         * Returns the next element in the iteration.
+         *
+         * @return the next element in the iteration
+         * @throws NoSuchElementException if the iteration has no more elements
+         */
+        @Override
+        public T next() {
+            if (wizPos == capacity()) {
+                wizPos = 0;
+            }
+            fillCount--;
+            return rb[++wizPos];
+        }
+    }
+    @Override
+    public Iterator<T> iterator() {
+        return new ArrayRingBufferIterator();
+    }
 }
 /* Index for the next enqueue. */
 // TODO: Remove all comments that say TODO when you're done.
