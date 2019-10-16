@@ -11,7 +11,7 @@ public interface BoundedQueue<T> {
      /** return (but do not delete) item from the front*/
     T peek();
 
-    void initiate(T x);
+    void initial(T x);
 
     default boolean isEmpty() {
         return fillCount() == 0;

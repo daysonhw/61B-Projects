@@ -28,11 +28,14 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
      */
     private T[] rb;
 
+    private int capacity;
+
     /**
      * Create a new ArrayRingBuffer with the given capacity.
      */
     public ArrayRingBuffer(int capacity) {
         rb = (T[]) new Object[capacity];
+        this.capacity = capacity;
         first = last = fillCount = 0;
     }
 
@@ -44,10 +47,10 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     public void enqueue(T x) {
         // Enqueue the item. Don't forget to increase fillCount and update
         //  last.
-        if (fillCount == rb.length) {
+        if (fillCount == capacity) {
             throw new RuntimeException("Ring buffer overflow");
         }
-        if (last == rb.length) {
+        if (last == capacity) {
             last = 0;
         }
         rb[last] = x;
@@ -60,7 +63,7 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
      */
     @Override
     public int capacity() {
-        return rb.length;
+        return capacity;
     }
 
     /**
@@ -80,21 +83,14 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
         if (fillCount == 0) {
             throw new RuntimeException("Ring buffer underflow");
         }
-        if (first == capacity() - 1) {
+        if (first == capacity - 1) {
             first = 0;
             fillCount --;
-            return rb[capacity() - 1];
+            return rb[capacity - 1];
         }
         first += 1;
         fillCount -= 1;
         return rb[first - 1];
-
-//        if (first == capacity()) {
-//            first = 0;
-//        }
-//        T temp = rb[first];
-//        fillCount--;
-//        first ++;
     }
 
     /**
@@ -110,17 +106,17 @@ public class ArrayRingBuffer<T> implements BoundedQueue<T> {
     }
 
     /**
-     * Initiate Array with item
+     * Fill array with item
      */
     @Override
-    public void initiate(T item) {
-        for (int i = 0; i < rb.length; i++) {
+    public void initial(T item) {
+        for (int i = 0; i < capacity; i++) {
             rb[i] = item;
         }
     }
 
     // TODO: When you get to part 4, implement the needed code to support
     //       iteration and equals.
-}
+    }
 /* Index for the next enqueue. */
 // TODO: Remove all comments that say TODO when you're done.
