@@ -1,5 +1,8 @@
 package es.datastructur.synthesizer;
-public interface BoundedQueue<T> {
+
+import java.util.Iterator;
+
+public interface BoundedQueue<T> extends Iterator<T> {
     /** return size of the buffer*/
     int capacity();
      /** return number of items currently in the buffer*/
